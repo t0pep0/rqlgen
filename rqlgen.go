@@ -135,6 +135,9 @@ func main() {
 	fmt.Fprintf(gen, "\tgenrqlerrors \"errors\"\n")
 	fmt.Fprintf(gen, ")\n\n")
 	fmt.Fprintf(gen, "func (%v *%v) MarshalRQL() (rqlgenRes interface{}, err error) {\n", shType, TypeName)
+	fmt.Fprintf(gen, "\tif %v == nil {\n", shType)
+	fmt.Fprintf(gen, "\t\treturn nil, nil\n")
+	fmt.Fprintf(gen, "\t}\n")
 	fmt.Fprintf(gen, "\trqlgenTmp := make(map[string]interface{}, %v)\n", len(strct.Fields))
 	for _, field := range strct.Fields {
 		switch field.DBType {
@@ -227,6 +230,9 @@ func main() {
 	fmt.Fprintf(gen, "}\n")
 
 	fmt.Fprintf(gen, "\nfunc (%v *%v) UnmarshalRQL(rqlgenIface interface{}) ( err error) {\n", shType, TypeName)
+	fmt.Fprintf(gen, "\tif %v == nil {\n", shType)
+	fmt.Fprintf(gen, "\t\t%v = new(%v)\n", shType, TypeName)
+	fmt.Fprintf(gen, "\t}\n")
 	fmt.Fprintf(gen, "\tvar rqlgenTmp map[string]interface{}\n")
 	fmt.Fprintf(gen, "\tvar ok bool\n")
 	fmt.Fprintf(gen, "\tvar genrql interface{}\n")
