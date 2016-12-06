@@ -52,6 +52,10 @@ func getFieldType(field ast.Expr) string {
 func getFieldTag(field *ast.Field) (rqlgenRes [3]string, err error) {
 	rawTag := strings.Trim(field.Tag.Value, "`")
 	out := rexp.FindStringSubmatch(rawTag)
+	if len(out) < 3 {
+		err = fmt.Errorf("Please, set valid gorethink tag for %v.%v\n", *pTypeName, field.Names[0].Name)
+		return rqlgenRes, err
+	}
 	rqlgenRes[0] = out[1]
 	rqlgenRes[1] = out[2]
 	out = rexpType.FindStringSubmatch(rawTag)
