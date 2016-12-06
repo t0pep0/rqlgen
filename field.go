@@ -124,7 +124,7 @@ func (f *Field) getUnmarshalStr(strct *Struct) (code string) {
 			} else {
 				if dbType[1] == "rql" {
 					code += fmt.Sprintf("\t\t\tfor k, v:= range f%v { \n", f.Name)
-					code += fmt.Sprintf("\t\t\t\terr = %v.%v[k].UmarshalRQL(v)\n", strct.Name, f.Name)
+					code += fmt.Sprintf("\t\t\t\terr = %v.%v[k].UnmarshalRQL(v)\n", strct.ShortName, f.Name)
 					code += fmt.Sprintf("\t\t\t\tif err != nil {\n")
 					code += fmt.Sprintf("\t\t\t\t\t\treturn  err\n")
 					code += fmt.Sprintf("\t\t\t\t}\n")

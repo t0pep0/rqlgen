@@ -10,6 +10,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"reflect"
 	"regexp"
 	"strings"
 )
@@ -45,6 +46,10 @@ func getFieldType(field ast.Expr) string {
 		return "map[" + getFieldType(v.Key) + "]" + getFieldType(v.Value)
 	case *ast.SliceExpr:
 		return "[]" + getFieldType(v.X)
+	case *ast.ArrayType:
+		return "[]" + getFieldType(v.Elt)
+	default:
+		fmt.Println("UNDEFINED:", reflect.TypeOf(v).String())
 	}
 	return ""
 }
